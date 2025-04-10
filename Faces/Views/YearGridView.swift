@@ -9,13 +9,16 @@ import SwiftUI
 
 struct YearGridView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+        
+        ZStack {
+            //Background
+                    Color.AppBackground
+                    .ignoresSafeArea()
+
+                 
+                }
+        
+        
     }
 }
 
