@@ -11,7 +11,7 @@ import SwiftUI
 struct FacesApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            YearGridView()
         }
     }
 }
