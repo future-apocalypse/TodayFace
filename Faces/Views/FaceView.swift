@@ -11,13 +11,12 @@ import SwiftUI
 
 
 struct FaceView: View {
-    let mood: MoodType
+    let mood: MoodType?
     
     var body: some View {
         
-        Text(mood.emoji)
-            .font(.system(size: 15))
-            .frame(width: 20, height: 20)
+        Text(mood?.emoji ?? "•")
+        .font(.system(size: 15))
         }
             
     }

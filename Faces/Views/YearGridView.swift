@@ -8,9 +8,21 @@
 import SwiftUI
 
 struct YearGridView: View {
-    let days = Array(repeating: MoodType.neutral, count: 365)
-    let columns = [GridItem(.fixed(7)) // ← Emoji width
-    ] + Array(repeating: GridItem(.fixed(20), spacing: 2), count: 13)
+    
+    private let currentYear: Int
+    private let days: [DayMood]
+    
+    private var remainingDays: Int {
+        let passedDays = days.filter { $0.mood != nil }.count
+        return days.count - passedDays
+    }
+    
+    private let columns = Array(repeating: GridItem(.fixed(20), spacing: 4), count: 14)
+    
+    init() {
+        self.currentYear = Calendar.current.component(.year, from: Date())
+        self.days = CalendarManager.generateDaysForYear(year: currentYear)
+    }
     
     var body: some View {
         ZStack {
@@ -18,37 +30,34 @@ struct YearGridView: View {
             Color.appBackground
                 .ignoresSafeArea()
             
-            VStack {
+            VStack(alignment: .center, spacing: 25) {
                 // Header
-                VStack{
-                    Text("312")
+                VStack {
+                    Text("\(remainingDays)")
                         .font(.system(size: 32, design: .serif))
                         .foregroundColor(.primaryText)
                     
                     (
                         Text("days ")
-                            .font(.system(size: 24, design: .serif))
                             .italic()
                             .foregroundColor(.secondaryText)
                         +
-                        Text("left in 2025")
-                            .font(.system(size: 24, design: .serif))
+                        Text("left in \(String(currentYear))")
                             .foregroundColor(.primaryText)
                     )
+                    .font(.system(size: 24, design: .serif))
                 }
                 .padding(.top)
 
                 // Grid of Faces
                 ScrollView {
-                    LazyVGrid(columns: columns, spacing: 1) {
-                        ForEach(0..<days.count, id: \.self) { index in
-                            FaceView(mood: days[index])
+                    LazyVGrid(columns: columns, spacing: 4) {
+                        ForEach(days) { day in
+                            FaceView(mood: day.mood)
                         }
                     }
                     .padding()
                 }
-                
-                Spacer()
             }
         }
     }
