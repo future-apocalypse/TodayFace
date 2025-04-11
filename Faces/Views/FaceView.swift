@@ -15,7 +15,7 @@ struct FaceView: View {
     
     var body: some View {
         
-        Text(mood?.emoji ?? "•")
+        Text(mood?.emotions ?? "•")
         .font(.system(size: 15))
         }
             

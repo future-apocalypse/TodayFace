@@ -9,6 +9,8 @@ import SwiftUI
 
 struct YearGridView: View {
     
+    @State private var showTodayView = false
+    
     private let currentYear: Int
     private let days: [DayMood]
     
@@ -27,7 +29,7 @@ struct YearGridView: View {
     var body: some View {
         ZStack {
             // Background
-            Color.appBackground
+            Color.AppBackground
                 .ignoresSafeArea()
             
             VStack(alignment: .center, spacing: 25) {
@@ -35,30 +37,39 @@ struct YearGridView: View {
                 VStack {
                     Text("\(remainingDays)")
                         .font(.system(size: 32, design: .serif))
-                        .foregroundColor(.primaryText)
+                        .foregroundColor(.PrimaryText)
                     
                     (
                         Text("days ")
                             .italic()
-                            .foregroundColor(.secondaryText)
+                            .foregroundColor(.SecondaryText)
                         +
                         Text("left in \(String(currentYear))")
-                            .foregroundColor(.primaryText)
+                            .foregroundColor(.PrimaryText)
                     )
                     .font(.system(size: 24, design: .serif))
                 }
-                .padding(.top)
-
+                
                 // Grid of Faces
-                ScrollView {
-                    LazyVGrid(columns: columns, spacing: 4) {
-                        ForEach(days) { day in
+                LazyVGrid(columns: columns, spacing: 4) {
+                    ForEach(days) { day in if Calendar.current.isDateInToday(day.date) {
+                        Button {
+                            showTodayView = true
+                        } label: {
                             FaceView(mood: day.mood)
                         }
-                    }
-                    .padding()
+                        .buttonStyle(PlainButtonStyle())
+                    } else {
+                        FaceView(mood: day.mood)
+                    }}
                 }
+                
+                .padding()
+                
             }
+        }
+        .sheet(isPresented: $showTodayView) {
+            TodayFaceView()
         }
     }
 }

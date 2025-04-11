@@ -10,16 +10,25 @@
 import SwiftUI
 
 enum MoodType: String, CaseIterable {
-    case happy
-    case neutral
+    case verygood
+    case good
+    case okay
     case sad
+    case excited
+    case angry
+    case emotional
     
     
-    var emoji: String {
+    var emotions: String {
         switch self {
-        case .happy: return "🙂"
-        case .neutral: return "😐"
-        case .sad: return "☹️"
+        case .verygood: return "😀"
+        case .good: return "🙂"
+        case .okay: return "😐"
+        case .excited: return "🤩"
+        case .sad: return "😕"
+        case .emotional: return "😭"
+        case .angry: return "😡"
+        
         }
     }
 }
