@@ -16,7 +16,7 @@ struct YearGridView: View {
     
     private var remainingDays: Int {
         let passedDays = days.filter { $0.mood != nil }.count
-        return days.count - passedDays
+        return days.count - passedDays + 1 // <- this includes today
     }
     
     private let columns = Array(repeating: GridItem(.fixed(20), spacing: 4), count: 14)

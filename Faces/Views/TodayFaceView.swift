@@ -109,7 +109,7 @@ struct TodayFaceView: View {
                     return Image(systemName: "sun.and.horizon.fill") // Morning
                 case 12..<17:
                     return Image(systemName: "sun.max.fill") // Afternoon
-                case 17..<22:
+                case 17..<20:
                     return Image(systemName: "sun.horizon.fill") // Evening
                 default:
                     return Image(systemName: "moon.fill") // Night
