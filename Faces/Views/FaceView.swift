@@ -17,6 +17,7 @@ struct FaceView: View {
         
         Text(mood?.emotions ?? "•")
         .font(.system(size: 15))
+        .foregroundColor(.PrimaryText)
         }
             
     }

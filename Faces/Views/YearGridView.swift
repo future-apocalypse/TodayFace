@@ -43,6 +43,7 @@ struct YearGridView: View {
                         Text("days ")
                             .italic()
                             .foregroundColor(.SecondaryText)
+                            .fontWeight(.semibold)
                         +
                         Text("left in \(String(currentYear))")
                             .foregroundColor(.PrimaryText)

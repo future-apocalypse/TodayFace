@@ -17,24 +17,53 @@ struct TodayFaceView: View {
     
     var body: some View {
         ZStack {
+            //Background
             Color.AppBackground
                 .ignoresSafeArea()
             
-            VStack(spacing: 20) {
-                Text("Today is \(formattedDate())")
-                    .font(.headline)
-                    .padding(.top)
+            VStack{
                 
-                Text("🌞 Choose your mood")
-                    .font(.system(size: 40))
+                // Dynamic greeting
+                Text("\(greetingSymbol()) \(greetingMessage())")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                    .padding()
+                    .fontWeight(.medium)
+               
                 
+                // Main question
+                HStack {
+                    Text("How are you")
+                        .font(.system(size: 32, design: .serif))
+                        .fontWeight(.medium)
+                        .foregroundColor(.PrimaryText)
+                    
+                    +
+                    
+                    Text(" feeling ")
+                    
+                        .font(.system(size: 44, design: .serif))
+                        
+                        .italic()
+                        .foregroundColor(.SecondaryText)
+                        .fontWeight(.semibold)
+                    +
+                    
+                    Text("today?")
+                        .font(.system(size: 32, design: .serif))
+                        .fontWeight(.medium)
+                        .foregroundColor(.PrimaryText)
+                    }
+                .padding(.top, 40)
+                 
+                //Mood picker
                 HStack {
                     ForEach(MoodType.allCases, id: \.self) { mood in
                         Button(action: {
                             selectedMood = mood
                         }) {
                             Text(mood.emotions)
-                                .font(.largeTitle)
+                                .font(.system(size: 40))
                         }
                     }
                 }
@@ -48,6 +77,7 @@ struct TodayFaceView: View {
                 Spacer()
             }
             .padding()
+            
         }
     }
 
@@ -56,6 +86,35 @@ struct TodayFaceView: View {
         formatter.dateStyle = .full
         return formatter.string(from: Date())
     }
+    //Greetings
+    private func greetingMessage() -> String {
+            let hour = Calendar.current.component(.hour, from: Date())
+            
+            switch hour {
+            case 5..<12:
+                return "Good Morning"
+            case 12..<17:
+                return "Good Afternoon"
+            case 17..<22:
+                return "Good Evening"
+            default:
+                return "Good Night"
+            }
+        }
+    
+    private func greetingSymbol() -> Image {
+            let hour = Calendar.current.component(.hour, from: Date())
+            switch hour {
+            case 5..<12:
+                    return Image(systemName: "sun.and.horizon.fill") // Morning
+                case 12..<17:
+                    return Image(systemName: "sun.max.fill") // Afternoon
+                case 17..<22:
+                    return Image(systemName: "sun.horizon.fill") // Evening
+                default:
+                    return Image(systemName: "moon.fill") // Night
+                }
+        }
 }
 
 
