@@ -25,8 +25,8 @@ struct CalendarManager {
             
             let isPastOrToday = calendar.compare(date, to: today, toGranularity: .day) != .orderedDescending
             
-            //  Past gets emoji, future gets dot
-            let mood: MoodType? = isPastOrToday ? .okay : nil
+            // Past days are unrecorded (nil), future gets dot
+            let mood: MoodType? = isPastOrToday ? nil : nil
             
 
             days.append(DayMood(date: date, mood: mood))

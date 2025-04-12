@@ -5,11 +5,9 @@
 //  Created by Mihail Verejan on 10.04.2025.
 //
 
-
-
 import SwiftUI
 
-enum MoodType: String, CaseIterable {
+enum MoodType: String, CaseIterable, Codable {
     case excited
     case verygood
     case good

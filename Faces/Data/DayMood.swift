@@ -12,9 +12,8 @@ import Foundation
 
 
 //Mood for a day
-struct DayMood: Identifiable {
-    let id = UUID()
+struct DayMood: Identifiable, Codable {
+    var id = UUID()
     let date: Date
     var mood: MoodType?
-    //Mood optional for now...
 }

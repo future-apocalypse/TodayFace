@@ -14,6 +14,7 @@ import SwiftUI
 
 struct TodayFaceView: View {
     @State private var selectedMood: MoodType = .okay
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         ZStack {
@@ -61,6 +62,8 @@ struct TodayFaceView: View {
                     ForEach(MoodType.allCases, id: \.self) { mood in
                         Button(action: {
                             selectedMood = mood
+                            MoodStorage.saveMood(mood, for: Date())
+                            dismiss()
                         }) {
                             Text(mood.emotions)
                                 .font(.system(size: 40))
@@ -69,7 +72,8 @@ struct TodayFaceView: View {
                 }
                 .padding()
                 
-                Text("“You are doing great. Just keep going.”")
+                Text("“Lorem ipsum dolor sit amet, consectetur adipiscing elit.”")
+                    .font(.system(size: 20, design: .serif))
                     .italic()
                     .multilineTextAlignment(.center)
                     .padding()
@@ -105,7 +109,7 @@ struct TodayFaceView: View {
     private func greetingSymbol() -> Image {
             let hour = Calendar.current.component(.hour, from: Date())
             switch hour {
-            case 5..<12:
+                case 5..<12:
                     return Image(systemName: "sun.and.horizon.fill") // Morning
                 case 12..<17:
                     return Image(systemName: "sun.max.fill") // Afternoon
