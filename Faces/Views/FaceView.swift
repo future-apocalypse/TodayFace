@@ -19,19 +19,33 @@ struct FaceView: View {
         self.date = date
     }
     
+    private var isToday: Bool {
+        guard let date = date else { return false }
+        return Calendar.current.isDateInToday(date)
+    }
+    
     var body: some View {
         if let mood = mood {
             Text(mood.emotions)
             .font(.system(size: 15))
             .foregroundColor(.PrimaryText)
         } else if let date = date, Calendar.current.compare(date, to: Date(), toGranularity: .day) != .orderedDescending {
-            // Past date with no mood show dot
-            Text("⨯")
-                .foregroundColor(.PrimaryText)
-                .font(.system(size: 15))
-            .foregroundColor(.PrimaryText)
-        }
-        else {
+            if isToday {
+                // Today with no mood - show X with pulsing animation
+                ZStack {
+                    Text("•")
+                        .font(.system(size: 15))
+                        .foregroundColor(.PrimaryText)
+                    PulsingCircleView()
+                        .frame(width: 20, height: 20)
+                }
+            } else {
+                // Past date with no mood - show X
+                Text("•")
+                    .font(.system(size: 15))
+                    .foregroundColor(.PrimaryText)
+            }
+        } else {
             // Future date - show dot
             Text("•")
             .font(.system(size: 15))
