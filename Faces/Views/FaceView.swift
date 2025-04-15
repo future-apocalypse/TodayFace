@@ -31,7 +31,7 @@ struct FaceView: View {
             .foregroundColor(.PrimaryText)
         } else if let date = date, Calendar.current.compare(date, to: Date(), toGranularity: .day) != .orderedDescending {
             if isToday {
-                // Today with no mood - show X with pulsing animation
+                // Today with no mood - show dot and pulsating circle
                 ZStack {
                     Text("•")
                         .font(.system(size: 15))

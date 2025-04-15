@@ -23,13 +23,31 @@ struct TodayFaceView: View {
                 .ignoresSafeArea()
             
             VStack{
+                // Close button at the top left
+                HStack {
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        Image(systemName: "xmark")
+                            .foregroundColor(.primary)
+                            .font(.system(size: 14, weight: .bold))
+                            .padding(10)
+                            .background(Color.secondary.opacity(0.2))
+                            .clipShape(Circle())
+                    }
+                    
+                    Spacer()
+                }
+                .padding(.bottom, 5)
                 
                 // Dynamic greeting
-                Text("\(greetingSymbol()) \(greetingMessage())")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-                    .padding()
-                    .fontWeight(.medium)
+                HStack {
+                    Text("\(greetingSymbol()) \(greetingMessage())")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                        .padding()
+                        .fontWeight(.medium)
+                }
                
                 
                 // Main question
@@ -71,8 +89,9 @@ struct TodayFaceView: View {
                     }
                 }
                 .padding()
+    
                 
-                Text("“Lorem ipsum dolor sit amet, consectetur adipiscing elit.”")
+                Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
                     .font(.system(size: 20, design: .serif))
                     .italic()
                     .multilineTextAlignment(.center)
