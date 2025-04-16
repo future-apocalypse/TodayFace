@@ -15,7 +15,7 @@ struct PulsingCircleView: View {
     var body: some View {
         Circle()
             .fill(Color.SecondaryText) // Center dot
-            .frame(width: 5, height: 5)
+            .frame(width: 6, height: 6)
             .background(
                 ZStack {
                     // Pulse layers in background
@@ -41,7 +41,7 @@ struct PulsingCircleView: View {
                         .blur(radius: 2)
                 }
             )
-            .offset(y: 1)
+            .offset(y: 1.5)
             .onAppear {
                 DispatchQueue.main.async {
                     animate = true
@@ -52,4 +52,7 @@ struct PulsingCircleView: View {
                 value: animate
             )
     }
+}
+#Preview {
+    YearGridView()
 }
