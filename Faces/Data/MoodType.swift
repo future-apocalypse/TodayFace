@@ -26,7 +26,18 @@ enum MoodType: String, CaseIterable, Codable {
         case .sad: return "😕"
         case .emotional: return "😭"
         case .angry: return "😡"
-        
+        }
+    }
+    
+    var description: String {
+        switch self {
+        case .excited: return "You felt super excited!"
+        case .verygood: return "You had a very good day."
+        case .good: return "You felt good."
+        case .okay: return "You felt okay."
+        case .sad: return "You felt sad."
+        case .emotional: return "You felt emotional."
+        case .angry: return "You felt angry."
         }
     }
 }

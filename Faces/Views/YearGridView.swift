@@ -1,15 +1,21 @@
 //
-//  ContentView.swift
+//  YearGridContentView.swift
 //  Faces
 //
-//  Created by Mihail Verejan on 10.04.2025.
+//  Created by Mihail Verejan on 16.04.2025.
 //
 
+
+
 import SwiftUI
+
+
+
 
 struct YearGridView: View {
     
     @State private var showTodayView = false
+    @State private var selectedMoodDay: DayMood? = nil
     
     private let currentYear: Int
     @State private var days: [DayMood]
@@ -50,7 +56,7 @@ struct YearGridView: View {
             Color.AppBackground
                 .ignoresSafeArea()
             
-            VStack(alignment: .center, spacing: 25) {
+            VStack{
                 // Header
                 VStack {
                     Text("\(remainingDays)")
@@ -66,25 +72,33 @@ struct YearGridView: View {
                         Text("left in \(String(currentYear))")
                             .foregroundColor(.PrimaryText)
                     )
-                    .font(.system(size: 24, design: .serif))
+                    .font(.system(size: 22, design: .serif))
                 }
                 
                 // Grid of Faces
-                LazyVGrid(columns: columns, spacing: 4) {
-                    ForEach(days) { day in if Calendar.current.isDateInToday(day.date) {
-                        Button {
-                            showTodayView = true
-                        } label: {
+                LazyVGrid(columns: columns, spacing: 2) {
+                    ForEach(days) { day in
+                        if Calendar.current.isDateInToday(day.date) {
+                            Button {
+                                showTodayView = true
+                            } label: {
+                                FaceView(mood: day.mood, date: day.date)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        } else if let mood = day.mood {
+                            Button {
+                                selectedMoodDay = day
+                            } label: {
+                                FaceView(mood: mood, date: day.date)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        } else {
                             FaceView(mood: day.mood, date: day.date)
                         }
-                        .buttonStyle(PlainButtonStyle())
-                    } else {
-                        FaceView(mood: day.mood, date: day.date)
-                    }}
+                    }
                 }
                 
-                .padding()
-                
+                .padding(32)
             }
         }
         .sheet(isPresented: $showTodayView) {
@@ -99,11 +113,15 @@ struct YearGridView: View {
                         return day
                     }
                 }
-            }
-           
         }
-    }
+        .sheet(item: $selectedMoodDay) { moodDay in
+            MoodDetailView(mood: moodDay.mood!, date: moodDay.date)
+        }
+            }
+      }
+    
 
 #Preview {
     YearGridView()
 }
+
