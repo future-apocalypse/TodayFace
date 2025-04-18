@@ -17,6 +17,7 @@ struct YearGridView: View {
     @State private var showTodayView = false
     @State private var selectedMoodDay: DayMood? = nil
     
+    
     private let currentYear: Int
     @State private var days: [DayMood]
     
@@ -97,10 +98,15 @@ struct YearGridView: View {
                         }
                     }
                 }
-                
-                .padding(32)
+                // TabBar here
+                //.padding()
+                TabBar()
+                .padding(.top, 50)
             }
+            
         }
+        
+        
         .sheet(isPresented: $showTodayView) {
             TodayFaceView()
                 .onDisappear {
@@ -117,8 +123,12 @@ struct YearGridView: View {
         .sheet(item: $selectedMoodDay) { moodDay in
             MoodDetailView(mood: moodDay.mood!, date: moodDay.date)
         }
-            }
+      
+       
       }
+
+    }
+
     
 
 #Preview {

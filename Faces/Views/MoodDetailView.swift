@@ -21,6 +21,7 @@ struct MoodDetailView: View {
             VStack(spacing: 24) {
                 
                 HStack {
+                    Spacer()
                     //Dismiss button
                     Button(action: {
                         dismiss()
@@ -33,7 +34,6 @@ struct MoodDetailView: View {
                             .clipShape(Circle())
                     }
                     
-                    Spacer()
                     
                 }
                 
