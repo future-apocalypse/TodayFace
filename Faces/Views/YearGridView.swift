@@ -16,9 +16,11 @@ struct YearGridView: View {
     
     @State private var showTodayView = false
     @State private var selectedMoodDay: DayMood? = nil
-    
     private let currentYear: Int
     @State private var days: [DayMood]
+    
+    // Haptics
+    @State private var haptics = false
     
     private var remainingDays: Int {
         let calendar = Calendar.current
@@ -81,6 +83,7 @@ struct YearGridView: View {
                         if Calendar.current.isDateInToday(day.date) {
                             Button {
                                 showTodayView = true
+                                haptics.toggle()
                             } label: {
                                 FaceView(mood: day.mood, date: day.date)
                             }
@@ -88,6 +91,7 @@ struct YearGridView: View {
                         } else if let mood = day.mood {
                             Button {
                                 selectedMoodDay = day
+                                haptics.toggle()
                             } label: {
                                 FaceView(mood: mood, date: day.date)
                             }
@@ -97,10 +101,19 @@ struct YearGridView: View {
                         }
                     }
                 }
+                // Haptic Feedback
+                .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.5), trigger: haptics)
+               
                 
-                .padding(32)
+                // TabBar here
+                //.padding()
+                TabBar()
+                .padding(.top, 50)
             }
+            
         }
+        
+        
         .sheet(isPresented: $showTodayView) {
             TodayFaceView()
                 .onDisappear {
@@ -117,8 +130,12 @@ struct YearGridView: View {
         .sheet(item: $selectedMoodDay) { moodDay in
             MoodDetailView(mood: moodDay.mood!, date: moodDay.date)
         }
-            }
+      
+       
       }
+
+    }
+
     
 
 #Preview {

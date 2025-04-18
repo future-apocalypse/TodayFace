@@ -25,6 +25,7 @@ struct TodayFaceView: View {
             VStack{
                 // Close button at the top left
                 HStack {
+                    Spacer()
                     Button(action: {
                         dismiss()
                     }) {
@@ -36,7 +37,7 @@ struct TodayFaceView: View {
                             .clipShape(Circle())
                     }
                     
-                    Spacer()
+                    
                 }
                 .padding(.bottom, 5)
                 

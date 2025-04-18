@@ -9,10 +9,10 @@
 
 import SwiftUI
 
-struct SecondView: View {
+struct StatsView: View {
     var body: some View {
         Text("Second View")
-            .font(.headline)
+            
             
     }
 }
