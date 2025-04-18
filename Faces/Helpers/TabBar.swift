@@ -16,7 +16,7 @@ struct TabBar: View {
     @State var currentTab: Tab = .grid
     @Namespace var animation
     
-    
+    @State var hapticsTab = false
     
     var body: some View {
         
@@ -41,13 +41,17 @@ struct TabBar: View {
                     .contentShape(Rectangle())
                     .onTapGesture {
                         withAnimation(.easeInOut){ currentTab = tab }
+                        hapticsTab.toggle()
                     }
+                    
                 }
             }
             .frame(maxWidth: .infinity)
             .padding(.horizontal, 24)
             .contentShape(Rectangle())
             
+        
+            .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.5), trigger: hapticsTab)
         
     }
     
@@ -60,7 +64,7 @@ struct TabBar: View {
         var systemImageName: String {
             switch self {
             case .grid:
-                return "square.grid.2x2"
+                return "circle.grid.3x3.fill"
             case .statistic:
                 return "chart.bar"
             case .settings:
