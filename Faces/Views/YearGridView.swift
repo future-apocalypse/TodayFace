@@ -102,7 +102,7 @@ struct YearGridView: View {
                     }
                 }
                 // Haptic Feedback
-                .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.5), trigger: haptics)
+                .sensoryFeedback(.impact(flexibility: .soft, intensity: 1), trigger: haptics)
                
                 
                 // TabBar here

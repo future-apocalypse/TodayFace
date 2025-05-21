@@ -23,8 +23,7 @@ struct TabBar: View {
         HStack(spacing: 0){
                 ForEach(Tab.allCases, id: \.rawValue) { tab in
                     VStack(spacing: 0){
-                        Image(systemName: tab.systemImageName)
-                            .renderingMode(.template)
+                        tab.systemImageName
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 20, height: 20)
@@ -61,14 +60,14 @@ struct TabBar: View {
         case statistic = "Statistic"
         case settings = "Settings"
         
-        var systemImageName: String {
+        var systemImageName: Image {
             switch self {
             case .grid:
-                return "circle.grid.3x3.fill"
+                return Image("dashboard_circle_Icon")
             case .statistic:
-                return "chart.bar"
+                return Image("chart_data_Icon")
             case .settings:
-                return "gearshape"
+                return Image("settings_Icon")
             }
         }
     }
