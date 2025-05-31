@@ -13,7 +13,7 @@ import SwiftUI
 
 
 struct TabBar: View {
-    @State var currentTab: Tab = .grid
+    @Binding var currentTab: Tab
     @Namespace var animation
     
     @State var hapticsTab = false
@@ -23,7 +23,7 @@ struct TabBar: View {
         HStack(spacing: 0){
                 ForEach(Tab.allCases, id: \.rawValue) { tab in
                     VStack(spacing: 0){
-                        tab.systemImageName
+                        Image(systemName: tab.systemImageName)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 20, height: 20)
@@ -41,6 +41,7 @@ struct TabBar: View {
                     .onTapGesture {
                         withAnimation(.easeInOut){ currentTab = tab }
                         hapticsTab.toggle()
+                        
                     }
                     
                 }
@@ -60,14 +61,14 @@ struct TabBar: View {
         case statistic = "Statistic"
         case settings = "Settings"
         
-        var systemImageName: Image {
+        var systemImageName: String {
             switch self {
             case .grid:
-                return Image("dashboard_circle_Icon")
+                return ("circle.grid.2x2.fill")
             case .statistic:
-                return Image("chart_data_Icon")
+                return ("chart.bar.fill")
             case .settings:
-                return Image("settings_Icon")
+                return ("gearshape.fill")
             }
         }
     }
@@ -75,3 +76,6 @@ struct TabBar: View {
 }
 
 
+#Preview {
+    YearGridView()
+}

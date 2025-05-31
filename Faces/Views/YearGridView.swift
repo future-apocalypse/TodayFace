@@ -18,9 +18,8 @@ struct YearGridView: View {
     @State private var selectedMoodDay: DayMood? = nil
     private let currentYear: Int
     @State private var days: [DayMood]
-    
-    // Haptics
     @State private var haptics = false
+    @State private var selectedTab: TabBar.Tab = .grid
     
     private var remainingDays: Int {
         let calendar = Calendar.current
@@ -57,67 +56,67 @@ struct YearGridView: View {
             // Background
             Color.AppBackground
                 .ignoresSafeArea()
-            
             VStack{
-                // Header
-                VStack {
-                    Text("\(remainingDays)")
-                        .font(.system(size: 32, design: .serif))
-                        .foregroundColor(.PrimaryText)
-                    
-                    (
-                        Text("days ")
-                            .italic()
-                            .foregroundColor(.SecondaryText)
-                            .fontWeight(.semibold)
-                        +
-                        Text("left in \(String(currentYear))")
-                            .foregroundColor(.PrimaryText)
-                    )
-                    .font(.system(size: 22, design: .serif))
-                }
-                
-                // Grid of Faces
-                LazyVGrid(columns: columns, spacing: 2) {
-                    ForEach(days) { day in
-                        if Calendar.current.isDateInToday(day.date) {
-                            Button {
-                                showTodayView = true
-                                haptics.toggle()
-                            } label: {
-                                FaceView(mood: day.mood, date: day.date)
+                Group {
+                    switch selectedTab {
+                    case .grid:
+                        VStack {
+                            // Header
+                            Spacer()
+                            VStack {
+                                Text("\(remainingDays)")
+                                    .font(.system(size: 32, design: .serif))
+                                    .foregroundColor(.PrimaryText)
+                                (
+                                    Text("days ")
+                                        .italic()
+                                        .foregroundColor(.SecondaryText)
+                                        .fontWeight(.semibold)
+                                    +
+                                    Text("left in \(String(currentYear))")
+                                        .foregroundColor(.PrimaryText)
+                                )
+                                .font(.system(size: 22, design: .serif))
                             }
-                            .buttonStyle(PlainButtonStyle())
-                        } else if let mood = day.mood {
-                            Button {
-                                selectedMoodDay = day
-                                haptics.toggle()
-                            } label: {
-                                FaceView(mood: mood, date: day.date)
+                            // Grid of Faces
+                            LazyVGrid(columns: columns, spacing: 2) {
+                                ForEach(days) { day in
+                                    if Calendar.current.isDateInToday(day.date) {
+                                        Button {
+                                            showTodayView = true
+                                            haptics.toggle()
+                                        } label: {
+                                            FaceView(mood: day.mood, date: day.date)
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
+                                    } else if let mood = day.mood {
+                                        Button {
+                                            selectedMoodDay = day
+                                            haptics.toggle()
+                                        } label: {
+                                            FaceView(mood: mood, date: day.date)
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
+                                    } else {
+                                        FaceView(mood: day.mood, date: day.date)
+                                    }
+                                }
                             }
-                            .buttonStyle(PlainButtonStyle())
-                        } else {
-                            FaceView(mood: day.mood, date: day.date)
+                            Spacer()
+                            .sensoryFeedback(.impact(flexibility: .soft, intensity: 1), trigger: haptics)
                         }
+                    case .statistic:
+                        StatisticView()
+                    case .settings:
+                        SettingsView()
                     }
                 }
-                // Haptic Feedback
-                .sensoryFeedback(.impact(flexibility: .soft, intensity: 1), trigger: haptics)
-               
-                
-                // TabBar here
-                //.padding()
-                TabBar()
-                .padding(.top, 50)
+               TabBar(currentTab: $selectedTab)
             }
-            
         }
-        
-        
         .sheet(isPresented: $showTodayView) {
             TodayFaceView()
                 .onDisappear {
-                    // Reload moods when TodayFaceView is dismissed
                     let savedMoods = MoodStorage.loadMoods()
                     days = days.map { day in
                         if let savedMood = savedMoods.first(where: { Calendar.current.isDate($0.date, inSameDayAs: day.date) }) {
@@ -130,13 +129,8 @@ struct YearGridView: View {
         .sheet(item: $selectedMoodDay) { moodDay in
             MoodDetailView(mood: moodDay.mood!, date: moodDay.date)
         }
-      
-       
-      }
-
     }
-
-    
+}
 
 #Preview {
     YearGridView()
