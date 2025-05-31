@@ -11,7 +11,7 @@ import SwiftUI
 
 struct StatsView: View {
     var body: some View {
-        Text("Second View")
+        Text("Statistics")
             
             
     }

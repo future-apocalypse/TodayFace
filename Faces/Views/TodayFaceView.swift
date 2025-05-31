@@ -13,7 +13,7 @@ import SwiftUI
 
 
 struct TodayFaceView: View {
-    @State private var selectedMood: MoodType = .okay
+    @State private var selectedMood: MoodType? = nil
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -81,12 +81,15 @@ struct TodayFaceView: View {
                     ForEach(MoodType.allCases, id: \.self) { mood in
                         Button(action: {
                             selectedMood = mood
-                            MoodStorage.saveMood(mood, for: Date())
-                            dismiss()
                         }) {
                             Text(mood.emotions)
                                 .font(.system(size: 40))
+                                //.padding(6)
+                                //.background(selectedMood == mood ? Color.accentColor.opacity(0.15) : Color.clear)
+                                .clipShape(Circle())
                         }
+                        .scaleEffect(selectedMood == mood ? 1.5 : 1.0)
+                        .animation(.spring(response: 0.35, dampingFraction: 0.5), value: selectedMood)
                     }
                 }
                 .padding()
@@ -99,6 +102,23 @@ struct TodayFaceView: View {
                     .padding()
                 
                 Spacer()
+                Button(action: {
+                    if let mood = selectedMood {
+                        MoodStorage.saveMood(mood, for: Date())
+                        dismiss()
+                    }
+                }) {
+                    Text("Confirm")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(selectedMood != nil ? Color.SecondaryText : Color.gray.opacity(0.3))
+                        .foregroundColor(.PrimaryText)
+                        .cornerRadius(12)
+                }
+                .padding(.horizontal)
+                .padding(.bottom, 24)
+                .disabled(selectedMood == nil)
             }
             .padding()
             

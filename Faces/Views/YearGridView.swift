@@ -13,15 +13,12 @@ import SwiftUI
 
 
 struct YearGridView: View {
-    
+    @State private var selectedTab: TabBar.Tab = .grid
     @State private var showTodayView = false
     @State private var selectedMoodDay: DayMood? = nil
     private let currentYear: Int
     @State private var days: [DayMood]
-    
-    // Haptics
     @State private var haptics = false
-    
     private var remainingDays: Int {
         let calendar = Calendar.current
         let today = Date()
@@ -54,70 +51,69 @@ struct YearGridView: View {
     
     var body: some View {
         ZStack {
-            // Background
-            Color.AppBackground
-                .ignoresSafeArea()
-            
-            VStack{
-                // Header
-                VStack {
-                    Text("\(remainingDays)")
-                        .font(.system(size: 32, design: .serif))
-                        .foregroundColor(.PrimaryText)
-                    
-                    (
-                        Text("days ")
-                            .italic()
-                            .foregroundColor(.SecondaryText)
-                            .fontWeight(.semibold)
-                        +
-                        Text("left in \(String(currentYear))")
-                            .foregroundColor(.PrimaryText)
-                    )
-                    .font(.system(size: 22, design: .serif))
-                }
-                
-                // Grid of Faces
-                LazyVGrid(columns: columns, spacing: 2) {
-                    ForEach(days) { day in
-                        if Calendar.current.isDateInToday(day.date) {
-                            Button {
-                                showTodayView = true
-                                haptics.toggle()
-                            } label: {
-                                FaceView(mood: day.mood, date: day.date)
+            Color.AppBackground.ignoresSafeArea()
+            VStack {
+                Spacer(minLength: 0)
+                Group {
+                    switch selectedTab {
+                    case .grid:
+                        VStack {
+                            // Header
+                            VStack {
+                                Text("\(remainingDays)")
+                                    .font(.system(size: 32, design: .serif))
+                                    .foregroundColor(.PrimaryText)
+                                (
+                                    Text("days ")
+                                        .italic()
+                                        .foregroundColor(.SecondaryText)
+                                        .fontWeight(.semibold)
+                                    +
+                                    Text("left in \(String(currentYear))")
+                                        .foregroundColor(.PrimaryText)
+                                )
+                                .font(.system(size: 22, design: .serif))
                             }
-                            .buttonStyle(PlainButtonStyle())
-                        } else if let mood = day.mood {
-                            Button {
-                                selectedMoodDay = day
-                                haptics.toggle()
-                            } label: {
-                                FaceView(mood: mood, date: day.date)
+                            // Grid of Faces
+                            LazyVGrid(columns: columns, spacing: 2) {
+                                ForEach(days) { day in
+                                    if Calendar.current.isDateInToday(day.date) {
+                                        Button {
+                                            showTodayView = true
+                                            haptics.toggle()
+                                        } label: {
+                                            FaceView(mood: day.mood, date: day.date)
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
+                                    } else if let mood = day.mood {
+                                        Button {
+                                            selectedMoodDay = day
+                                            haptics.toggle()
+                                        } label: {
+                                            FaceView(mood: mood, date: day.date)
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
+                                    } else {
+                                        FaceView(mood: day.mood, date: day.date)
+                                    }
+                                }
                             }
-                            .buttonStyle(PlainButtonStyle())
-                        } else {
-                            FaceView(mood: day.mood, date: day.date)
+                            .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.5), trigger: haptics)
                         }
+                    case .statistic:
+                        StatsView()
+                    case .settings:
+                        SettingsView()
                     }
                 }
-                // Haptic Feedback
-                .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.5), trigger: haptics)
-               
-                
-                // TabBar here
-                //.padding()
-                TabBar()
-                .padding(.top, 50)
+                Spacer(minLength: 0)
+                TabBar(currentTab: $selectedTab)
+                    .padding(.top, 50)
             }
-            
         }
-        
-        
         .sheet(isPresented: $showTodayView) {
             TodayFaceView()
                 .onDisappear {
-                    // Reload moods when TodayFaceView is dismissed
                     let savedMoods = MoodStorage.loadMoods()
                     days = days.map { day in
                         if let savedMood = savedMoods.first(where: { Calendar.current.isDate($0.date, inSameDayAs: day.date) }) {
@@ -130,11 +126,12 @@ struct YearGridView: View {
         .sheet(item: $selectedMoodDay) { moodDay in
             MoodDetailView(mood: moodDay.mood!, date: moodDay.date)
         }
+    }
       
        
       }
 
-    }
+    
 
     
 
