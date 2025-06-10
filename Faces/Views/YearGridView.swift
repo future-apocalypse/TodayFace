@@ -106,9 +106,10 @@ struct YearGridView: View {
                         SettingsView()
                     }
                 }
-                Spacer(minLength: 0)
+                Spacer()
                 TabBar(currentTab: $selectedTab)
                     .padding(.top, 50)
+                //Spacer()
             }
         }
         .sheet(isPresented: $showTodayView) {
