@@ -18,7 +18,7 @@ struct YearGridView: View {
     @State private var selectedMoodDay: DayMood? = nil
     private let currentYear: Int
     @State private var days: [DayMood]
-    @State private var haptics = false
+    @ObservedObject var haptics = HapticManager.shared
     private var remainingDays: Int {
         let calendar = Calendar.current
         let today = Date()
@@ -80,7 +80,7 @@ struct YearGridView: View {
                                     if Calendar.current.isDateInToday(day.date) {
                                         Button {
                                             showTodayView = true
-                                            haptics.toggle()
+                                            haptics.triggerHaptic()
                                         } label: {
                                             FaceView(mood: day.mood, date: day.date)
                                         }
@@ -88,7 +88,7 @@ struct YearGridView: View {
                                     } else if let mood = day.mood {
                                         Button {
                                             selectedMoodDay = day
-                                            haptics.toggle()
+                                            haptics.triggerHaptic()
                                         } label: {
                                             FaceView(mood: mood, date: day.date)
                                         }
@@ -99,7 +99,7 @@ struct YearGridView: View {
                                 }
                             }
                             .padding(.bottom,80)
-                            .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.5), trigger: haptics)
+                            .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.5), trigger: haptics.trigger)
                         }
                     case .statistic:
                         StatsView()

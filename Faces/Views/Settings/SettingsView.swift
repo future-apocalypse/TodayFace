@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @State private var notificationsEnabled = true
+    @AppStorage("hapticsEnabled") private var hapticFeedbackEnabled = true
     var body: some View {
         NavigationStack {
             ZStack {
@@ -54,6 +55,22 @@ struct SettingsView: View {
                                     .font(.system(size: 20))
                                     .frame(width: 40, height: 40)
                                 Text("Notifications")
+                                .foregroundColor(Color.PrimaryText)
+                            }
+                            .padding(.vertical, 12)
+                        }
+                        .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+                        .listRowBackground(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color.gray.opacity(0.1)))
+                    }
+                    Section{
+                        Toggle(isOn: $hapticFeedbackEnabled){
+                            HStack{
+                                Image(systemName: "iphone.radiowaves.left.and.right")
+                                    .font(.system(size: 20))
+                                    .frame(width: 40, height: 40)
+                                Text("Haptic Feedback")
                                 .foregroundColor(Color.PrimaryText)
                             }
                             .padding(.vertical, 12)

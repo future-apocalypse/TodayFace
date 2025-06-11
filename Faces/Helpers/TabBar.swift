@@ -15,7 +15,7 @@ import SwiftUI
 struct TabBar: View {
     @Binding var currentTab: Tab
     @Namespace var animation
-    @State var hapticsTab = false
+    var haptics = HapticManager.shared
     var body: some View {
         HStack(spacing: 0){
             ForEach(Tab.allCases, id: \.rawValue) { tab in
@@ -38,7 +38,7 @@ struct TabBar: View {
                 .contentShape(Rectangle())
                 .onTapGesture {
                     withAnimation(.easeInOut){ currentTab = tab }
-                    hapticsTab.toggle()
+                    haptics.triggerHaptic()
                 }
             }
         }
@@ -46,7 +46,7 @@ struct TabBar: View {
         .padding(.horizontal, 30)
         .padding(.vertical, 10)
         .contentShape(Rectangle())
-        .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.5), trigger: hapticsTab)
+        .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.5), trigger: haptics.trigger)
     }
     enum Tab: String, CaseIterable {
         case grid = "Grid"
