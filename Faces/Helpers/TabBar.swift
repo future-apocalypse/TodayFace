@@ -43,7 +43,8 @@ struct TabBar: View {
             }
         }
         .frame(maxWidth: .infinity)
-        .padding(.horizontal, 24)
+        .padding(.horizontal, 30)
+        .padding(.vertical, 10)
         .contentShape(Rectangle())
         .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.5), trigger: hapticsTab)
     }
@@ -64,4 +65,6 @@ struct TabBar: View {
     }
 }
 
-
+#Preview {
+    YearGridView()
+}

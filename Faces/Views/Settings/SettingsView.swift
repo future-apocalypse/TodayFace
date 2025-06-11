@@ -10,7 +10,7 @@ import SwiftUI
 struct SettingsView: View {
     @State private var notificationsEnabled = true
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 Color.AppBackground
                 .ignoresSafeArea()
@@ -84,11 +84,14 @@ struct SettingsView: View {
                 .listStyle(InsetGroupedListStyle())
                 .navigationTitle("Settings")
                 .scrollContentBackground(.hidden)
+                
             }
+            
         }
-    }
+      }
 }
 
 #Preview {
     SettingsView()
+    //YearGridView()
 }

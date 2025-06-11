@@ -50,7 +50,7 @@ struct YearGridView: View {
     }
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .bottom) {
             Color.AppBackground.ignoresSafeArea()
             VStack {
                 Spacer(minLength: 0)
@@ -98,6 +98,7 @@ struct YearGridView: View {
                                     }
                                 }
                             }
+                            .padding(.bottom,80)
                             .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.5), trigger: haptics)
                         }
                     case .statistic:
@@ -106,12 +107,21 @@ struct YearGridView: View {
                         SettingsView()
                     }
                 }
-                Spacer()
-                TabBar(currentTab: $selectedTab)
-                    .padding(.top, 50)
-                //Spacer()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                
+                
             }
+            TabBar(currentTab: $selectedTab)
+                        .padding(.bottom, 8)
+            
         }
+        
+        
+            
+        
+        //.background(Color.clear)
+        
+        
         .sheet(isPresented: $showTodayView) {
             TodayFaceView()
                 .onDisappear {
