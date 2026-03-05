@@ -63,15 +63,19 @@ Below are some behind-the-scenes snapshots of the development process.
 
 ## UI Development
 ![Screenshot 2026-03-05 at 3.19.46 PM.png](Github_Assets/Screenshot%202026-03-05%20at%203.19.46%E2%80%AFPM.png)
+<p align="center">
 <img src="Github_Assets/Screenshot 2025-04-11 at 15.53.57.png" width="460">
 <img src="Github_Assets/Screenshot 2025-04-11 at 17.29.10.png" width="300">
+</p>
 
 ## Mood Grid Design
 
-<img src="Github_Assets/Screenshot 2025-04-25 at 19.00.36.png" width="210">
-<img src="Github_Assets/Screenshot 2025-04-25 at 19.00.43.png" width="210">
-<img src="Github_Assets/Screenshot 2025-04-25 at 19.00.49.png" width="210">
 
+<p align="center">
+  <img src="Github_Assets/Screenshot 2025-04-25 at 19.00.36.png" width="240">
+<img src="Github_Assets/Screenshot 2025-04-25 at 19.00.43.png" width="240">
+<img src="Github_Assets/Screenshot 2025-04-25 at 19.00.49.png" width="240">
+</p>
 
 ---
 
