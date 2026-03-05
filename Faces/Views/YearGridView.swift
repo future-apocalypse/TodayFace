@@ -114,14 +114,8 @@ struct YearGridView: View {
             TabBar(currentTab: $selectedTab)
                         .padding(.bottom, 8)
             
-        }
-        
-        
             
-        
-        //.background(Color.clear)
-        
-        
+        }
         .sheet(isPresented: $showTodayView) {
             TodayFaceView()
                 .onDisappear {

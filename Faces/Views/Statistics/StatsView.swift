@@ -11,8 +11,18 @@ import SwiftUI
 
 struct StatsView: View {
     var body: some View {
-        Text("Statistics")
-            
+        NavigationStack{
+            ZStack {
+                Color.AppBackground
+                .ignoresSafeArea()
+                
+                Text("Statistics")
+                
+                    .listStyle(InsetGroupedListStyle())
+                    .navigationTitle("Statistics")
+                    .scrollContentBackground(.hidden)
+            }
+        }
             
     }
 }
